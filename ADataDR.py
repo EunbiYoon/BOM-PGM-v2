@@ -353,20 +353,17 @@ for i in range(len(npt)):
             gerp_des=unique_gerp.at[j,"Description"]
             gerp_price=unique_gerp.at[j,"QPA*Material Cost"]
             gerp_qty=unique_gerp.at[j,"Qty Per Assembly"]
+            if gerp_parent=='RV13D1AMAZU.ABWEUUS':
+                gerp_parent='TAV35812101'
             if gerp_des==npt_des and gerp_part==npt_part and gerp_qty==npt_qty and gerp_parent==npt_parent: #완전 일치문 (parent는 일치해야 함 드라이어)
-                if gerp_price==npt_price:
-                    gerp_data=unique_gerp.at[j,"Seq"]
-                    match_list.at[match_number,"gerp_true"]=gerp_data
-                else:
-                    gerp_data=unique_gerp.at[j,"Seq"]
-                    match_list.at[match_number,"gerp_price"]=gerp_data
+                gerp_data=unique_gerp.at[j,"Seq"]
+                match_list.at[match_number,"gerp_price"]=gerp_data
             else:
                 continue
         ### HOW TO DROP 
         used_index=unique_gerp[unique_gerp["Seq"]==gerp_data].index
         unique_gerp=unique_gerp.drop(used_index,axis=0)
         unique_gerp.reset_index(drop=True, inplace=True)
-
 
     elif npt_des=="PCB Assembly,Complex":
         count=0
@@ -481,6 +478,7 @@ for i in range(len(npt)):
     else:
         pass
 
+match_list.to_excel('33.xlsx')
 #Screw,Customized -> 부모, description, Qty 만보고 먼저 매치
 for i in range(len(npt)):
     npt_part=npt.at[i,"Part No"]
