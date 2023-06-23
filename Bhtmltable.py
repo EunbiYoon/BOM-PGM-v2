@@ -1,15 +1,17 @@
 import pandas as pd
 import numpy as np
 
+#today date
+today_date="0609"
 
 #####지난번에 했던 결과 소환
-FL_last_result=pd.read_excel('C:/Users/RnD Workstation/Documents/NPTGERP/0616/result_0616.xlsx', sheet_name="F3P2CYUBW.ABWEUUS_result")
-TL_last_result=pd.read_excel('C:/Users/RnD Workstation/Documents/NPTGERP/0616/result_0616.xlsx', sheet_name="T1889EFHUW.ABWEUUS_result")
-DR_last_result=pd.read_excel('C:/Users/RnD Workstation/Documents/NPTGERP/0616/result_0616.xlsx', sheet_name="RV13D1AMAZU.ABWEUUS_result")
+FL_last_result=pd.read_excel('C:/Users/RnD Workstation/Documents/NPTGERP/'+today_date+'/result_'+today_date+'.xlsx', sheet_name="F3P2CYUBW.ABWEUUS_result")
+TL_last_result=pd.read_excel('C:/Users/RnD Workstation/Documents/NPTGERP/'+today_date+'/result_'+today_date+'.xlsx', sheet_name="T1889EFHUW.ABWEUUS_result")
+DR_last_result=pd.read_excel('C:/Users/RnD Workstation/Documents/NPTGERP/'+today_date+'/result_'+today_date+'.xlsx', sheet_name="RV13D1AMAZU.ABWEUUS_result")
 
-FL_item_result=pd.read_excel('C:/Users/RnD Workstation/Documents/NPTGERP/0616/result_0616.xlsx', sheet_name="F3P2CYUBW.ABWEUUS_worst item")
-TL_item_result=pd.read_excel('C:/Users/RnD Workstation/Documents/NPTGERP/0616/result_0616.xlsx', sheet_name="T1889EFHUW.ABWEUUS_worst item")
-DR_item_result=pd.read_excel('C:/Users/RnD Workstation/Documents/NPTGERP/0616/result_0616.xlsx', sheet_name="RV13D1AMAZU.ABWEUUS_worst item")
+FL_item_result=pd.read_excel('C:/Users/RnD Workstation/Documents/NPTGERP/'+today_date+'/result_'+today_date+'.xlsx', sheet_name="F3P2CYUBW.ABWEUUS_worst item")
+TL_item_result=pd.read_excel('C:/Users/RnD Workstation/Documents/NPTGERP/'+today_date+'/result_'+today_date+'.xlsx', sheet_name="T1889EFHUW.ABWEUUS_worst item")
+DR_item_result=pd.read_excel('C:/Users/RnD Workstation/Documents/NPTGERP/'+today_date+'/result_'+today_date+'.xlsx', sheet_name="RV13D1AMAZU.ABWEUUS_worst item")
 
 ######데이터 정리
 #index
@@ -329,7 +331,7 @@ DR_item=DR_item.replace('<th style="color:navy;background-color:#ECFFAF; border:
 
 
 #save this templates to use in website
-file_path="C:/Users/RnD Workstation/Documents/NPTGERP/0616/"
+file_path="C:/Users/RnD Workstation/Documents/NPTGERP/"+today_date+"/"
 #save trend table
 with open(file_path+"FL_trend.html","w") as file:
     file.write(FL_html)

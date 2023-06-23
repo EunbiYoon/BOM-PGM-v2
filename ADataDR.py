@@ -1450,23 +1450,23 @@ final_table = final_table.astype(cast_to_type) # round error -> datatype
 final_table["price match"]=final_table["price match"].round(8)
 
 
-############## price match - exceptional - Heater Substitute ##############
-## 자신의 child 다른 parent 매칭 but substitute part
-for i in range(len(final_table)):
-    child_part=str(final_table.at[i,"Child Item"])[:-2]  #gerp
-    part_des=final_table.at[i,"Desc."] #npt
-    price_match=final_table.at[i,"match"]
-    if part_des.__contains__('Heater Assembly') and price_match=='Substitute':
-        for j in range(len(final_table)):
-            another_parent=final_table.at[j,"Parent Part"][:-2]#npt
-            another_qty=final_table.at[j,"Qty Per Assembly"]
-            another_price=final_table.at[j,"Material Cost (LOC)"]
-            another_des=final_table.at[j,"Desc."]
-            another_match=final_table.at[j,"match"]
-            if another_des=='Heater Assembly' and another_parent==child_part and another_match!=("Substitute"):
-                final_table.at[i,"price match"]=(final_table.at[i,"Net Material"]-another_price)*final_table.at[i,"Qty Per Assembly"]
-    else:
-        pass
+# ############## price match - exceptional - Heater Substitute ##############
+# ## 자신의 child 다른 parent 매칭 but substitute part
+# for i in range(len(final_table)):
+#     child_part=str(final_table.at[i,"Child Item"])[:-2]  #gerp
+#     part_des=final_table.at[i,"Desc."] #npt
+#     price_match=final_table.at[i,"match"]
+#     if part_des.__contains__('Heater Assembly') and price_match=='Substitute':
+#         for j in range(len(final_table)):
+#             another_parent=final_table.at[j,"Parent Part"][:-2]#npt
+#             another_qty=final_table.at[j,"Qty Per Assembly"]
+#             another_price=final_table.at[j,"Material Cost (LOC)"]
+#             another_des=final_table.at[j,"Desc."]
+#             another_match=final_table.at[j,"match"]
+#             if another_des=='Heater Assembly' and another_parent==child_part and another_match!=("Substitute"):
+#                 final_table.at[i,"price match"]=(final_table.at[i,"Net Material"]-another_price)*final_table.at[i,"Qty Per Assembly"]
+#     else:
+#         pass
 
 # ############## price match Npt T, Child NPT G,D,S ##############
 # for i in range(len(final_table)):

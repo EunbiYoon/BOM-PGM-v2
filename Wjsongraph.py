@@ -1,12 +1,19 @@
 import pandas as pd
-import openpyxl 
 from json2html import *
-import json
-from pprint import pprint
-from jsonmerge import merge
-from jsonmerge import Merger
 
-read_excel=pd.read_excel("C:/Users/RnD Workstation/Documents/NPTGERP/0616/result_0616.xlsx", sheet_name="RV13D1AMAZU.ABWEUUS_result")
+# today date
+today_date="0623"
+model_name="DR"
+
+# model -> sheet name matching
+if model_name=="FL":
+    model_sheet="F3P2CYUBW.ABWEUUS"
+elif model_name=="DR":
+    model_sheet="RV13D1AMAZU.ABWEUUS"
+elif model_name=="TL":
+    model_sheet="T1889EFHUW.ABWEUUS"
+
+read_excel=pd.read_excel("C:/Users/RnD Workstation/Documents/NPTGERP/"+today_date+"/result_"+today_date+".xlsx", sheet_name=model_sheet+'_result')
 read_excel.index=read_excel['Unnamed: 1']
 read_excel=read_excel.drop(['Unnamed: 1','Unnamed: 0'],axis=1)
 read_excel=read_excel.T

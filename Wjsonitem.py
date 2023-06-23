@@ -1,7 +1,18 @@
 import pandas as pd
-import openpyxl 
 
-read_excel=pd.read_excel("C:/Users/RnD Workstation/Documents/NPTGERP/0602/result_0602.xlsx", sheet_name="RV13D1AMAZU.ABWEUUS_worst item")
+# today date
+today_date="0609"
+model_name="DR"
+
+# model -> sheet name matching
+if model_name=="FL":
+    model_sheet="F3P2CYUBW.ABWEUUS"
+elif model_name=="DR":
+    model_sheet="RV13D1AMAZU.ABWEUUS"
+elif model_name=="TL":
+    model_sheet="T1889EFHUW.ABWEUUS"
+
+read_excel=pd.read_excel("C:/Users/RnD Workstation/Documents/NPTGERP/0602/result_0602.xlsx", sheet_name=model_sheet+"_worst item")
 read_excel.index=["",1,2,3,4,5,6,7]
 read_excel.columns=["NPT","","","","","","","NPT vs GERP","","GERP","","","","","",""]
 read_excel=read_excel.round(1)
