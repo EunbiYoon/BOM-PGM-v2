@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-today_date="0623"
+today_date="0628"
 
 ###########################GERP###############################
 gerp=pd.read_excel('C:/Users/RnD Workstation/Documents/NPTGERP/'+str(today_date)+'/DR/gerp.xlsx')
@@ -478,7 +478,6 @@ for i in range(len(npt)):
     else:
         pass
 
-match_list.to_excel('33.xlsx')
 #Screw,Customized -> 부모, description, Qty 만보고 먼저 매치
 for i in range(len(npt)):
     npt_part=npt.at[i,"Part No"]
