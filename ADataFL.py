@@ -1161,6 +1161,59 @@ for i in range(len(remain_gerp)): #i -> gerp
     if flag:
         break
 
+flag=False
+for i in range(len(remain_gerp)): #i -> gerp
+    remain_des=remain_gerp.at[i,"Description"]
+    remain_parent=remain_gerp.at[i,"Parent Item"]
+    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+    remain_seq=remain_gerp.at[i,"Seq"]
+    remain_part=remain_gerp.at[i,"Child Item"]
+    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+    remain_seq=remain_gerp.at[i,"Seq"]
+    for j in range(len(npt)):
+        npt_des=npt.at[j,"Desc."]
+        npt_subdes=npt.at[j,"Desc."][:-2]
+        npt_subpart=str(npt.at[j,"Part No"])[:-2]
+        npt_parent=str(npt.at[j,"Parent Part"])
+        match_number=npt.at[j,"Seq."]            
+        ############### Cap,Softener ###############
+        if remain_des=="Cap,Softener" and npt_des==remain_des:
+            match_list.at[match_number,"gerp_re"]=remain_seq
+            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+            remain_drop=remain_match.index.values
+            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+            remain_gerp.reset_index(drop=True, inplace=True)             
+            flag=True
+            break
+    if flag:
+        break
+
+flag=False
+for i in range(len(remain_gerp)): #i -> gerp
+    remain_des=remain_gerp.at[i,"Description"]
+    remain_parent=remain_gerp.at[i,"Parent Item"]
+    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+    remain_seq=remain_gerp.at[i,"Seq"]
+    remain_part=remain_gerp.at[i,"Child Item"]
+    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+    remain_seq=remain_gerp.at[i,"Seq"]
+    for j in range(len(npt)):
+        npt_des=npt.at[j,"Desc."]
+        npt_subdes=npt.at[j,"Desc."][:-2]
+        npt_subpart=str(npt.at[j,"Part No"])[:-2]
+        npt_parent=str(npt.at[j,"Parent Part"])
+        match_number=npt.at[j,"Seq."]            
+        ############### Cap,Siphone ###############
+        if remain_des=="Cap,Siphone" and npt_des==remain_des:
+            match_list.at[match_number,"gerp_re"]=remain_seq
+            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+            remain_drop=remain_match.index.values
+            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+            remain_gerp.reset_index(drop=True, inplace=True)             
+            flag=True
+            break
+    if flag:
+        break
 
 ############### remain gerp 매칭 안되고 missing 된것
 remain_gerp.to_excel('C:/Users/RnD Workstation/Documents/NPTGERP/'+str(today_date)+'/FL/remaingerp.xlsx')
@@ -1206,11 +1259,9 @@ match_list=match_list.rename(columns={"index": "Seq."})
 match_list.to_excel('C:/Users/RnD Workstation/Documents/NPTGERP/'+str(today_date)+'/FL/matchlist.xlsx')
 
 ######################################## submatchlist matching with match_digit
-print(match_list)
 sub_matchlist=pd.DataFrame()
 change_count=0
 
-print(match_list)
 for i in range(len(match_list)):
     match_digit=match_list.at[i,"match_digit"]
     
