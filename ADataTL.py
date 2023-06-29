@@ -700,6 +700,12 @@ for i in range(len(remain_gerp)): #i -> gerp
             remain_match.at[match_number,"index"]=i
 
 
+        ############## Label Barcode ###############
+        elif remain_des=='Sheet,Steel(STS)' and remain_parent[:3]=="MAM" and npt_part[:3]=="MAM":
+            print(match_number)
+            match_list.at[match_number,"gerp_re"]=remain_seq
+            remain_match.at[match_number,"index"]=i
+
         ############## PASS ###############
         else:
             pass
