@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from collections import Counter
 
-today_date="0628"
+today_date="0707"
 
 ###########################GERP###############################
 gerp=pd.read_excel('C:/Users/RnD Workstation/Documents/NPTGERP/'+str(today_date)+'/FL/gerp.xlsx')
@@ -740,7 +740,6 @@ for i in range(len(remain_gerp)): #i -> gerp
                 
                 
 
-
     elif remain_des=='Door,Glass':
         for k in range(len(gerp)):
             gerp_parent=gerp.at[k,"Parent Item"]
@@ -804,416 +803,498 @@ for i in range(len(remain_gerp)): #i -> gerp
             break
     if flag:
         break
+        flag=False
+        for i in range(len(remain_gerp)): #i -> gerp
+            remain_des=remain_gerp.at[i,"Description"]
+            remain_parent=remain_gerp.at[i,"Parent Item"]
+            remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            remain_part=remain_gerp.at[i,"Child Item"]
+            remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
 
-flag=False
-for i in range(len(remain_gerp)): #i -> gerp
-    remain_des=remain_gerp.at[i,"Description"]
-    remain_parent=remain_gerp.at[i,"Parent Item"]
-    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    remain_part=remain_gerp.at[i,"Child Item"]
-    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-
-    for j in range(len(npt)):
-        npt_des=npt.at[j,"Desc."]
-        npt_subdes=npt.at[j,"Desc."][:-2]
-        npt_subpart=str(npt.at[j,"Part No"])[:-2]
-        npt_parent=str(npt.at[j,"Parent Part"])
-        match_number=npt.at[j,"Seq."]
-        ############### Coil,Steel(STS) for drum ###############
-        if remain_des=="Coil,Steel(STS)" and npt_parent==remain_parent and npt_des==remain_des:
-            match_list.at[match_number,"gerp_re"]=remain_seq
-            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
-            remain_drop=remain_match.index.values
-            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
-            remain_gerp.reset_index(drop=True, inplace=True)  
-            flag=True
-            break
-    if flag:
-        break
-
-flag=False
-for i in range(len(remain_gerp)): #i -> gerp
-    remain_des=remain_gerp.at[i,"Description"]
-    remain_parent=remain_gerp.at[i,"Parent Item"]
-    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    remain_part=remain_gerp.at[i,"Child Item"]
-    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    for j in range(len(npt)):
-        npt_des=npt.at[j,"Desc."]
-        npt_subdes=npt.at[j,"Desc."][:-2]
-        npt_subpart=str(npt.at[j,"Part No"])[:-2]
-        npt_parent=str(npt.at[j,"Parent Part"])
-        match_number=npt.at[j,"Seq."]            
-        ############### Sheet,Steel(GI) for rear cover ###############
-        if remain_des=="Sheet,Steel(GI)" and npt_subpart==remain_subparent:
-            match_list.at[match_number,"gerp_re"]=remain_seq
-            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
-            remain_drop=remain_match.index.values
-            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
-            remain_gerp.reset_index(drop=True, inplace=True)             
-            flag=True
-            break
-    if flag:
-        break
-
-flag=False
-for i in range(len(remain_gerp)): #i -> gerp
-    remain_des=remain_gerp.at[i,"Description"]
-    remain_parent=remain_gerp.at[i,"Parent Item"]
-    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    remain_part=remain_gerp.at[i,"Child Item"]
-    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    for j in range(len(npt)):
-        npt_des=npt.at[j,"Desc."]
-        npt_subdes=npt.at[j,"Desc."][:-2]
-        npt_subpart=str(npt.at[j,"Part No"])[:-2]
-        npt_parent=str(npt.at[j,"Parent Part"])
-        match_number=npt.at[j,"Seq."]            
-        ############### resin,asa ###############
-        if npt_subdes=='Resin,A' and npt_parent==remain_parent:
-            match_list.at[match_number,"gerp_re"]=remain_seq
-            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
-            remain_drop=remain_match.index.values
-            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
-            remain_gerp.reset_index(drop=True, inplace=True)             
-            flag=True
-            break
-    if flag:
-        break
+            for j in range(len(npt)):
+                npt_des=npt.at[j,"Desc."]
+                npt_subdes=npt.at[j,"Desc."][:-2]
+                npt_subpart=str(npt.at[j,"Part No"])[:-2]
+                npt_parent=str(npt.at[j,"Parent Part"])
+                match_number=npt.at[j,"Seq."]
+                ############### Coil,Steel(STS) for drum ###############
+                if remain_des=="Coil,Steel(STS)" and npt_parent==remain_parent and npt_des==remain_des:
+                    match_list.at[match_number,"gerp_re"]=remain_seq
+                    remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+                    remain_drop=remain_match.index.values
+                    remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+                    remain_gerp.reset_index(drop=True, inplace=True)  
+                    flag=True
+                    break
+            if flag:
+                break
 
 
-flag=False
-for i in range(len(remain_gerp)): #i -> gerp
-    remain_des=remain_gerp.at[i,"Description"]
-    remain_parent=remain_gerp.at[i,"Parent Item"]
-    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    remain_part=remain_gerp.at[i,"Child Item"]
-    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    for j in range(len(npt)):
-        npt_des=npt.at[j,"Desc."]
-        npt_subdes=npt.at[j,"Desc."][:-2]
-        npt_subpart=str(npt.at[j,"Part No"])[:-2]
-        npt_parent=str(npt.at[j,"Parent Part"])
-        match_number=npt.at[j,"Seq."]           
-        ############### rotor & stator ###############
-        if remain_des.__contains__('Assembly,Combined') and remain_des.__contains__(npt_des):
-            match_list.at[match_number,"gerp_re"]=remain_seq
-            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
-            remain_drop=remain_match.index.values
-            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
-            remain_gerp.reset_index(drop=True, inplace=True)          
-            flag=True
-            break
-    if flag:
-        break
+        flag=False
+        for i in range(len(remain_gerp)): #i -> gerp
+            remain_des=remain_gerp.at[i,"Description"]
+            remain_parent=remain_gerp.at[i,"Parent Item"]
+            remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            remain_part=remain_gerp.at[i,"Child Item"]
+            remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+
+            for j in range(len(npt)):
+                npt_des=npt.at[j,"Desc."]
+                npt_subdes=npt.at[j,"Desc."][:-2]
+                npt_subpart=str(npt.at[j,"Part No"])[:-2]
+                npt_parent=str(npt.at[j,"Parent Part"])
+                match_number=npt.at[j,"Seq."]
+                ############### Coil,Steel(STS) for drum ###############
+                if remain_des=="Drawer" and npt_subpart==remain_subpart:
+                    match_list.at[match_number,"gerp_re"]=remain_seq
+                    match_list.at[match_number,"index"]=match_number
+                    remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+                    remain_drop=remain_match.index.values
+                    remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+                    remain_gerp.reset_index(drop=True, inplace=True)  
+                    flag=True
+                    break
+            if flag:
+                break
+
+        flag=False
+        for i in range(len(remain_gerp)): #i -> gerp
+            remain_des=remain_gerp.at[i,"Description"]
+            remain_sub1part=remain_gerp.at[i,"Child Item"][:-1]
+            remain_seq=remain_gerp.at[i,"Seq"]
+
+            for j in range(len(npt)):
+                npt_des=npt.at[j,"Desc."]
+                npt_sub1part=npt.at[j,"Part No"][:-1]
+                match_number=npt.at[j,"Seq."]
+                ############### Coil,Steel(STS) for drum ###############
+                if remain_des=="Wrap" and npt_des==remain_des and npt_sub1part=='MKE6426170':
+                    match_list.at[match_number,"gerp_re"]=remain_seq
+                    match_list.at[match_number,"index"]=match_number
+                    print(match_number)
+                    print(match_list)
+                    remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+                    remain_drop=remain_match.index.values
+                    remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+                    remain_gerp.reset_index(drop=True, inplace=True)  
+                    flag=True
+                    break
+            if flag:
+                break
 
 
-flag=False
-for i in range(len(remain_gerp)): #i -> gerp
-    remain_des=remain_gerp.at[i,"Description"]
-    remain_parent=remain_gerp.at[i,"Parent Item"]
-    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    remain_part=remain_gerp.at[i,"Child Item"]
-    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    for j in range(len(npt)):
-        npt_des=npt.at[j,"Desc."]
-        npt_subdes=npt.at[j,"Desc."][:-2]
-        npt_subpart=str(npt.at[j,"Part No"])[:-2]
-        npt_parent=str(npt.at[j,"Parent Part"])
-        match_number=npt.at[j,"Seq."]           
-        ############### rotor assembly ###############
-        if remain_des=='Rotor Assembly' and npt_des.__contains__('Rotor'):
-            match_list.at[match_number,"gerp_re"]=remain_seq
-            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
-            remain_drop=remain_match.index.values
-            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
-            remain_gerp.reset_index(drop=True, inplace=True)  
-            flag=True
-            break
-    if flag:
-        break
+        flag=False
+        for i in range(len(remain_gerp)): #i -> gerp
+            remain_des=remain_gerp.at[i,"Description"]
+            remain_sub1part=remain_gerp.at[i,"Child Item"][:-1]
+            remain_seq=remain_gerp.at[i,"Seq"]
+
+            for j in range(len(npt)):
+                npt_des=npt.at[j,"Desc."]
+                npt_sub1part=npt.at[j,"Part No"][:-1]
+                match_number=npt.at[j,"Seq."]
+                ############### Coil,Steel(STS) for drum ###############
+                if remain_des=="Wrap" and npt_des==remain_des and npt_sub1part==remain_sub1part:
+                    match_list.at[match_number,"gerp_re"]=remain_seq
+                    match_list.at[match_number,"index"]=match_number
+                    print(match_number)
+                    print(match_list)
+                    remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+                    remain_drop=remain_match.index.values
+                    remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+                    remain_gerp.reset_index(drop=True, inplace=True)  
+                    flag=True
+                    break
+            if flag:
+                break
+
+        flag=False
+        for i in range(len(remain_gerp)): #i -> gerp
+            remain_des=remain_gerp.at[i,"Description"]
+            remain_parent=remain_gerp.at[i,"Parent Item"]
+            remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            remain_part=remain_gerp.at[i,"Child Item"]
+            remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            for j in range(len(npt)):
+                npt_des=npt.at[j,"Desc."]
+                npt_subdes=npt.at[j,"Desc."][:-2]
+                npt_subpart=str(npt.at[j,"Part No"])[:-2]
+                npt_parent=str(npt.at[j,"Parent Part"])
+                match_number=npt.at[j,"Seq."]            
+                ############### Sheet,Steel(GI) for rear cover ###############
+                if remain_des=="Sheet,Steel(GI)" and npt_subpart==remain_subparent:
+                    match_list.at[match_number,"gerp_re"]=remain_seq
+                    remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+                    remain_drop=remain_match.index.values
+                    remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+                    remain_gerp.reset_index(drop=True, inplace=True)             
+                    flag=True
+                    break
+            if flag:
+                break
+
+        flag=False
+        for i in range(len(remain_gerp)): #i -> gerp
+            remain_des=remain_gerp.at[i,"Description"]
+            remain_parent=remain_gerp.at[i,"Parent Item"]
+            remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            remain_part=remain_gerp.at[i,"Child Item"]
+            remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            for j in range(len(npt)):
+                npt_des=npt.at[j,"Desc."]
+                npt_subdes=npt.at[j,"Desc."][:-2]
+                npt_subpart=str(npt.at[j,"Part No"])[:-2]
+                npt_parent=str(npt.at[j,"Parent Part"])
+                match_number=npt.at[j,"Seq."]            
+                ############### resin,asa ###############
+                if npt_subdes=='Resin,A' and npt_parent==remain_parent:
+                    match_list.at[match_number,"gerp_re"]=remain_seq
+                    remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+                    remain_drop=remain_match.index.values
+                    remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+                    remain_gerp.reset_index(drop=True, inplace=True)             
+                    flag=True
+                    break
+            if flag:
+                break
 
 
-flag=False
-for i in range(len(remain_gerp)): #i -> gerp
-    remain_des=remain_gerp.at[i,"Description"]
-    remain_parent=remain_gerp.at[i,"Parent Item"]
-    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    remain_part=remain_gerp.at[i,"Child Item"]
-    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    for j in range(len(npt)):
-        npt_des=npt.at[j,"Desc."]
-        npt_subdes=npt.at[j,"Desc."][:-2]
-        npt_subpart=str(npt.at[j,"Part No"])[:-2]
-        npt_parent=str(npt.at[j,"Parent Part"])
-        match_number=npt.at[j,"Seq."]            
-        ############### stator assembly ###############
-        if remain_des=='Stator Assembly' and npt_des.__contains__('Stator'):
-            match_list.at[match_number,"gerp_re"]=remain_seq
-            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
-            remain_drop=remain_match.index.values
-            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
-            remain_gerp.reset_index(drop=True, inplace=True)          
-            flag=True
-            break
-    if flag:
-        break
+        flag=False
+        for i in range(len(remain_gerp)): #i -> gerp
+            remain_des=remain_gerp.at[i,"Description"]
+            remain_parent=remain_gerp.at[i,"Parent Item"]
+            remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            remain_part=remain_gerp.at[i,"Child Item"]
+            remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            for j in range(len(npt)):
+                npt_des=npt.at[j,"Desc."]
+                npt_subdes=npt.at[j,"Desc."][:-2]
+                npt_subpart=str(npt.at[j,"Part No"])[:-2]
+                npt_parent=str(npt.at[j,"Parent Part"])
+                match_number=npt.at[j,"Seq."]           
+                ############### rotor & stator ###############
+                if remain_des.__contains__('Assembly,Combined') and remain_des.__contains__(npt_des):
+                    match_list.at[match_number,"gerp_re"]=remain_seq
+                    remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+                    remain_drop=remain_match.index.values
+                    remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+                    remain_gerp.reset_index(drop=True, inplace=True)          
+                    flag=True
+                    break
+            if flag:
+                break
 
 
-flag=False
-for i in range(len(remain_gerp)): #i -> gerp
-    remain_des=remain_gerp.at[i,"Description"]
-    remain_parent=remain_gerp.at[i,"Parent Item"]
-    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    remain_part=remain_gerp.at[i,"Child Item"]
-    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    for j in range(len(npt)):
-        npt_des=npt.at[j,"Desc."]
-        npt_subdes=npt.at[j,"Desc."][:-2]
-        npt_subpart=str(npt.at[j,"Part No"])[:-2]
-        npt_parent=str(npt.at[j,"Parent Part"])
-        match_number=npt.at[j,"Seq."]            
-        ############### hanger pivot ###############
-        if remain_des.__contains__(',Pivot') and remain_des==npt_des and remain_subpart==npt_subpart:
-            match_list.at[match_number,"gerp_re"]=remain_seq
-            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
-            remain_drop=remain_match.index.values
-            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
-            remain_gerp.reset_index(drop=True, inplace=True)  
-            flag=True
-            break
-    if flag:
-        break
+        flag=False
+        for i in range(len(remain_gerp)): #i -> gerp
+            remain_des=remain_gerp.at[i,"Description"]
+            remain_parent=remain_gerp.at[i,"Parent Item"]
+            remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            remain_part=remain_gerp.at[i,"Child Item"]
+            remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            for j in range(len(npt)):
+                npt_des=npt.at[j,"Desc."]
+                npt_subdes=npt.at[j,"Desc."][:-2]
+                npt_subpart=str(npt.at[j,"Part No"])[:-2]
+                npt_parent=str(npt.at[j,"Parent Part"])
+                match_number=npt.at[j,"Seq."]           
+                ############### rotor assembly ###############
+                if remain_des=='Rotor Assembly' and npt_des.__contains__('Rotor'):
+                    match_list.at[match_number,"gerp_re"]=remain_seq
+                    remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+                    remain_drop=remain_match.index.values
+                    remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+                    remain_gerp.reset_index(drop=True, inplace=True)  
+                    flag=True
+                    break
+            if flag:
+                break
 
 
-flag=False
-for i in range(len(remain_gerp)): #i -> gerp
-    remain_des=remain_gerp.at[i,"Description"]
-    remain_parent=remain_gerp.at[i,"Parent Item"]
-    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    remain_part=remain_gerp.at[i,"Child Item"]
-    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    for j in range(len(npt)):
-        npt_des=npt.at[j,"Desc."]
-        npt_subdes=npt.at[j,"Desc."][:-2]
-        npt_subpart=str(npt.at[j,"Part No"])[:-2]
-        npt_parent=str(npt.at[j,"Parent Part"])
-        match_number=npt.at[j,"Seq."]            
-        ############### label, barcode ###############
-        if remain_des=="Label,Barcode" and npt_subpart==remain_subpart and npt_des==remain_des:
-            match_list.at[match_number,"gerp_re"]=remain_seq
-            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
-            remain_drop=remain_match.index.values
-            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
-            remain_gerp.reset_index(drop=True, inplace=True)           
-            flag=True
-            break
-    if flag:
-        break
+        flag=False
+        for i in range(len(remain_gerp)): #i -> gerp
+            remain_des=remain_gerp.at[i,"Description"]
+            remain_parent=remain_gerp.at[i,"Parent Item"]
+            remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            remain_part=remain_gerp.at[i,"Child Item"]
+            remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            for j in range(len(npt)):
+                npt_des=npt.at[j,"Desc."]
+                npt_subdes=npt.at[j,"Desc."][:-2]
+                npt_subpart=str(npt.at[j,"Part No"])[:-2]
+                npt_parent=str(npt.at[j,"Parent Part"])
+                match_number=npt.at[j,"Seq."]            
+                ############### stator assembly ###############
+                if remain_des=='Stator Assembly' and npt_des.__contains__('Stator'):
+                    match_list.at[match_number,"gerp_re"]=remain_seq
+                    remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+                    remain_drop=remain_match.index.values
+                    remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+                    remain_gerp.reset_index(drop=True, inplace=True)          
+                    flag=True
+                    break
+            if flag:
+                break
 
 
-flag=False
-for i in range(len(remain_gerp)): #i -> gerp
-    remain_des=remain_gerp.at[i,"Description"]
-    remain_parent=remain_gerp.at[i,"Parent Item"]
-    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    remain_part=remain_gerp.at[i,"Child Item"]
-    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    for j in range(len(npt)):
-        npt_des=npt.at[j,"Desc."]
-        npt_subdes=npt.at[j,"Desc."][:-2]
-        npt_subpart=str(npt.at[j,"Part No"])[:-2]
-        npt_parent=str(npt.at[j,"Parent Part"])
-        match_number=npt.at[j,"Seq."]            
-        ############### Wrap ###############
-        if remain_des=="Wrap" and npt_subpart==remain_subpart:
-            match_list.at[match_number,"gerp_re"]=remain_seq
-            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
-            remain_drop=remain_match.index.values
-            flag=True
-            break
-    if flag:
-        break
+        flag=False
+        for i in range(len(remain_gerp)): #i -> gerp
+            remain_des=remain_gerp.at[i,"Description"]
+            remain_parent=remain_gerp.at[i,"Parent Item"]
+            remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            remain_part=remain_gerp.at[i,"Child Item"]
+            remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            for j in range(len(npt)):
+                npt_des=npt.at[j,"Desc."]
+                npt_subdes=npt.at[j,"Desc."][:-2]
+                npt_subpart=str(npt.at[j,"Part No"])[:-2]
+                npt_parent=str(npt.at[j,"Parent Part"])
+                match_number=npt.at[j,"Seq."]            
+                ############### hanger pivot ###############
+                if remain_des.__contains__(',Pivot') and remain_des==npt_des and remain_subpart==npt_subpart:
+                    match_list.at[match_number,"gerp_re"]=remain_seq
+                    remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+                    remain_drop=remain_match.index.values
+                    remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+                    remain_gerp.reset_index(drop=True, inplace=True)  
+                    flag=True
+                    break
+            if flag:
+                break
 
-flag=False
-for i in range(len(remain_gerp)): #i -> gerp
-    remain_des=remain_gerp.at[i,"Description"]
-    remain_parent=remain_gerp.at[i,"Parent Item"]
-    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    remain_part=remain_gerp.at[i,"Child Item"]
-    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    for j in range(len(npt)):
-        npt_des=npt.at[j,"Desc."]
-        npt_subdes=npt.at[j,"Desc."][:-2]
-        npt_subpart=str(npt.at[j,"Part No"])[:-2]
-        npt_parent=str(npt.at[j,"Parent Part"])
-        match_number=npt.at[j,"Seq."]           
-        ############### Dispenser ###############
-        if remain_des=="Dispenser" and npt_subpart==remain_subpart:
-            match_list.at[match_number,"gerp_re"]=remain_seq
-            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
-            remain_drop=remain_match.index.values
-            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
-            remain_gerp.reset_index(drop=True, inplace=True)
-            flag=True
-            break
-    if flag:
-        break
 
-flag=False
-for i in range(len(remain_gerp)): #i -> gerp
-    remain_des=remain_gerp.at[i,"Description"]
-    remain_parent=remain_gerp.at[i,"Parent Item"]
-    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    remain_part=remain_gerp.at[i,"Child Item"]
-    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    for j in range(len(npt)):
-        npt_des=npt.at[j,"Desc."]
-        npt_subdes=npt.at[j,"Desc."][:-2]
-        npt_subpart=str(npt.at[j,"Part No"])[:-2]
-        npt_parent=str(npt.at[j,"Parent Part"])
-        match_number=npt.at[j,"Seq."]            
-        # ############### Sheet, Steel ###############
-        if remain_des=="Sheet,Steel(PCM)" and npt_parent=="MBH64722501":
-            match_list.at[match_number,"gerp_re"]=remain_seq
-            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
-            remain_drop=remain_match.index.values
-            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
-            remain_gerp.reset_index(drop=True, inplace=True)    
-            flag=True
-            break
-    if flag:
-        break
+        flag=False
+        for i in range(len(remain_gerp)): #i -> gerp
+            remain_des=remain_gerp.at[i,"Description"]
+            remain_parent=remain_gerp.at[i,"Parent Item"]
+            remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            remain_part=remain_gerp.at[i,"Child Item"]
+            remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            for j in range(len(npt)):
+                npt_des=npt.at[j,"Desc."]
+                npt_subdes=npt.at[j,"Desc."][:-2]
+                npt_subpart=str(npt.at[j,"Part No"])[:-2]
+                npt_parent=str(npt.at[j,"Parent Part"])
+                match_number=npt.at[j,"Seq."]            
+                ############### label, barcode ###############
+                if remain_des=="Label,Barcode" and npt_subpart==remain_subpart and npt_des==remain_des:
+                    match_list.at[match_number,"gerp_re"]=remain_seq
+                    remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+                    remain_drop=remain_match.index.values
+                    remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+                    remain_gerp.reset_index(drop=True, inplace=True)           
+                    flag=True
+                    break
+            if flag:
+                break
 
-flag=False
-for i in range(len(remain_gerp)): #i -> gerp
-    remain_des=remain_gerp.at[i,"Description"]
-    remain_parent=remain_gerp.at[i,"Parent Item"]
-    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    remain_part=remain_gerp.at[i,"Child Item"]
-    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    for j in range(len(npt)):
-        npt_des=npt.at[j,"Desc."]
-        npt_subdes=npt.at[j,"Desc."][:-2]
-        npt_subpart=str(npt.at[j,"Part No"])[:-2]
-        npt_parent=str(npt.at[j,"Parent Part"])
-        match_number=npt.at[j,"Seq."]    
-        ############### Panel, Drawer series ###############
-        if remain_des==npt_des:
-            match_list.at[match_number,"gerp_re"]=remain_seq
-            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
-            remain_drop=remain_match.index.values
-            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
-            remain_gerp.reset_index(drop=True, inplace=True)         
-            flag=True
-            break
-    if flag:
-        break
 
-flag=False
-for i in range(len(remain_gerp)): #i -> gerp
-    remain_des=remain_gerp.at[i,"Description"]
-    remain_parent=remain_gerp.at[i,"Parent Item"]
-    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    remain_part=remain_gerp.at[i,"Child Item"]
-    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    for j in range(len(npt)):
-        npt_des=npt.at[j,"Desc."]
-        npt_subdes=npt.at[j,"Desc."][:-2]
-        npt_subpart=str(npt.at[j,"Part No"])[:-2]
-        npt_parent=str(npt.at[j,"Parent Part"])
-        match_number=npt.at[j,"Seq."]            
-        ############### Panel, Drawer series ###############
-        if remain_des=="Panel,Drawer" and npt_des=="Panel,Drawer(Form)":
-            match_list.at[match_number,"gerp_re"]=remain_seq
-            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
-            remain_drop=remain_match.index.values
-            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
-            remain_gerp.reset_index(drop=True, inplace=True)             
-            flag=True
-            break
-    if flag:
-        break
+        flag=False
+        for i in range(len(remain_gerp)): #i -> gerp
+            remain_des=remain_gerp.at[i,"Description"]
+            remain_parent=remain_gerp.at[i,"Parent Item"]
+            remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            remain_part=remain_gerp.at[i,"Child Item"]
+            remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            for j in range(len(npt)):
+                npt_des=npt.at[j,"Desc."]
+                npt_subdes=npt.at[j,"Desc."][:-2]
+                npt_subpart=str(npt.at[j,"Part No"])[:-2]
+                npt_parent=str(npt.at[j,"Parent Part"])
+                match_number=npt.at[j,"Seq."]            
+                ############### Wrap ###############
+                if remain_des=="Wrap" and npt_subpart==remain_subpart:
+                    match_list.at[match_number,"gerp_re"]=remain_seq
+                    remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+                    remain_drop=remain_match.index.values
+                    flag=True
+                    break
+            if flag:
+                break
 
-flag=False
-for i in range(len(remain_gerp)): #i -> gerp
-    remain_des=remain_gerp.at[i,"Description"]
-    remain_parent=remain_gerp.at[i,"Parent Item"]
-    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    remain_part=remain_gerp.at[i,"Child Item"]
-    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    for j in range(len(npt)):
-        npt_des=npt.at[j,"Desc."]
-        npt_subdes=npt.at[j,"Desc."][:-2]
-        npt_subpart=str(npt.at[j,"Part No"])[:-2]
-        npt_parent=str(npt.at[j,"Parent Part"])
-        match_number=npt.at[j,"Seq."]            
-        ############### Cap,Softener ###############
-        if remain_des=="Cap,Softener" and npt_des==remain_des:
-            match_list.at[match_number,"gerp_re"]=remain_seq
-            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
-            remain_drop=remain_match.index.values
-            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
-            remain_gerp.reset_index(drop=True, inplace=True)             
-            flag=True
-            break
-    if flag:
-        break
+        flag=False
+        for i in range(len(remain_gerp)): #i -> gerp
+            remain_des=remain_gerp.at[i,"Description"]
+            remain_parent=remain_gerp.at[i,"Parent Item"]
+            remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            remain_part=remain_gerp.at[i,"Child Item"]
+            remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            for j in range(len(npt)):
+                npt_des=npt.at[j,"Desc."]
+                npt_subdes=npt.at[j,"Desc."][:-2]
+                npt_subpart=str(npt.at[j,"Part No"])[:-2]
+                npt_parent=str(npt.at[j,"Parent Part"])
+                match_number=npt.at[j,"Seq."]           
+                ############### Dispenser ###############
+                if remain_des=="Dispenser" and npt_subpart==remain_subpart:
+                    match_list.at[match_number,"gerp_re"]=remain_seq
+                    remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+                    remain_drop=remain_match.index.values
+                    remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+                    remain_gerp.reset_index(drop=True, inplace=True)
+                    flag=True
+                    break
+            if flag:
+                break
 
-flag=False
-for i in range(len(remain_gerp)): #i -> gerp
-    remain_des=remain_gerp.at[i,"Description"]
-    remain_parent=remain_gerp.at[i,"Parent Item"]
-    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    remain_part=remain_gerp.at[i,"Child Item"]
-    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
-    remain_seq=remain_gerp.at[i,"Seq"]
-    for j in range(len(npt)):
-        npt_des=npt.at[j,"Desc."]
-        npt_subdes=npt.at[j,"Desc."][:-2]
-        npt_subpart=str(npt.at[j,"Part No"])[:-2]
-        npt_parent=str(npt.at[j,"Parent Part"])
-        match_number=npt.at[j,"Seq."]            
-        ############### Cap,Siphone ###############
-        if remain_des=="Cap,Siphone" and npt_des==remain_des:
-            match_list.at[match_number,"gerp_re"]=remain_seq
-            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
-            remain_drop=remain_match.index.values
-            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
-            remain_gerp.reset_index(drop=True, inplace=True)             
-            flag=True
-            break
-    if flag:
-        break
+        flag=False
+        for i in range(len(remain_gerp)): #i -> gerp
+            remain_des=remain_gerp.at[i,"Description"]
+            remain_parent=remain_gerp.at[i,"Parent Item"]
+            remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            remain_part=remain_gerp.at[i,"Child Item"]
+            remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            for j in range(len(npt)):
+                npt_des=npt.at[j,"Desc."]
+                npt_subdes=npt.at[j,"Desc."][:-2]
+                npt_subpart=str(npt.at[j,"Part No"])[:-2]
+                npt_parent=str(npt.at[j,"Parent Part"])
+                match_number=npt.at[j,"Seq."]            
+                # ############### Sheet, Steel ###############
+                if remain_des=="Sheet,Steel(PCM)" and npt_parent=="MBH64722501":
+                    match_list.at[match_number,"gerp_re"]=remain_seq
+                    remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+                    remain_drop=remain_match.index.values
+                    remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+                    remain_gerp.reset_index(drop=True, inplace=True)    
+                    flag=True
+                    break
+            if flag:
+                break
+
+        flag=False
+        for i in range(len(remain_gerp)): #i -> gerp
+            remain_des=remain_gerp.at[i,"Description"]
+            remain_parent=remain_gerp.at[i,"Parent Item"]
+            remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            remain_part=remain_gerp.at[i,"Child Item"]
+            remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            for j in range(len(npt)):
+                npt_des=npt.at[j,"Desc."]
+                npt_subdes=npt.at[j,"Desc."][:-2]
+                npt_subpart=str(npt.at[j,"Part No"])[:-2]
+                npt_parent=str(npt.at[j,"Parent Part"])
+                match_number=npt.at[j,"Seq."]    
+                ############### Panel, Drawer series ###############
+                if remain_des==npt_des:
+                    match_list.at[match_number,"gerp_re"]=remain_seq
+                    remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+                    remain_drop=remain_match.index.values
+                    remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+                    remain_gerp.reset_index(drop=True, inplace=True)         
+                    flag=True
+                    break
+            if flag:
+                break
+
+        flag=False
+        for i in range(len(remain_gerp)): #i -> gerp
+            remain_des=remain_gerp.at[i,"Description"]
+            remain_parent=remain_gerp.at[i,"Parent Item"]
+            remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            remain_part=remain_gerp.at[i,"Child Item"]
+            remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            for j in range(len(npt)):
+                npt_des=npt.at[j,"Desc."]
+                npt_subdes=npt.at[j,"Desc."][:-2]
+                npt_subpart=str(npt.at[j,"Part No"])[:-2]
+                npt_parent=str(npt.at[j,"Parent Part"])
+                match_number=npt.at[j,"Seq."]            
+                ############### Panel, Drawer series ###############
+                if remain_des=="Panel,Drawer" and npt_des=="Panel,Drawer(Form)":
+                    match_list.at[match_number,"gerp_re"]=remain_seq
+                    remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+                    remain_drop=remain_match.index.values
+                    remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+                    remain_gerp.reset_index(drop=True, inplace=True)             
+                    flag=True
+                    break
+            if flag:
+                break
+
+        flag=False
+        for i in range(len(remain_gerp)): #i -> gerp
+            remain_des=remain_gerp.at[i,"Description"]
+            remain_parent=remain_gerp.at[i,"Parent Item"]
+            remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            remain_part=remain_gerp.at[i,"Child Item"]
+            remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            for j in range(len(npt)):
+                npt_des=npt.at[j,"Desc."]
+                npt_subdes=npt.at[j,"Desc."][:-2]
+                npt_subpart=str(npt.at[j,"Part No"])[:-2]
+                npt_parent=str(npt.at[j,"Parent Part"])
+                match_number=npt.at[j,"Seq."]            
+                ############### Cap,Softener ###############
+                if remain_des=="Cap,Softener" and npt_des==remain_des:
+                    match_list.at[match_number,"gerp_re"]=remain_seq
+                    match_list.at[match_number,"index"]=match_number
+                    remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+                    remain_drop=remain_match.index.values
+                    remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+                    remain_gerp.reset_index(drop=True, inplace=True)       
+                    flag=True
+                    break
+            if flag:
+                break
+
+        flag=False
+        for i in range(len(remain_gerp)): #i -> gerp
+            remain_des=remain_gerp.at[i,"Description"]
+            remain_parent=remain_gerp.at[i,"Parent Item"]
+            remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            remain_part=remain_gerp.at[i,"Child Item"]
+            remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+            remain_seq=remain_gerp.at[i,"Seq"]
+            for j in range(len(npt)):
+                npt_des=npt.at[j,"Desc."]
+                npt_subdes=npt.at[j,"Desc."][:-2]
+                npt_subpart=str(npt.at[j,"Part No"])[:-2]
+                npt_parent=str(npt.at[j,"Parent Part"])
+                match_number=npt.at[j,"Seq."]            
+                ############### Cap,Siphone ###############
+                if remain_des=="Cap,Siphone" and npt_des==remain_des:
+                    match_list.at[match_number,"gerp_re"]=remain_seq
+                    match_list.at[match_number,"index"]=match_number
+                    remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+                    remain_drop=remain_match.index.values
+                    remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+                    remain_gerp.reset_index(drop=True, inplace=True)             
+                    flag=True
+                    break
+            if flag:
+                break
 
 ############### remain gerp 매칭 안되고 missing 된것
 remain_gerp.to_excel('C:/Users/RnD Workstation/Documents/NPTGERP/'+str(today_date)+'/FL/remaingerp.xlsx')
@@ -1317,6 +1398,29 @@ for i in range(len(match_list)):
         sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_sub']
         change_count=change_count+1
 
+    ############### parent, price, sub, exc ###############
+    elif match_digit==111010:
+        # price
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_price"]=match_list.at[i,'gerp_price']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_price']
+        change_count=change_count+1
+        #parent
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_parent"]=match_list.at[i,'gerp_parent']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_parent']
+        change_count=change_count+1
+        #sub
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_sub"]=match_list.at[i,'gerp_sub']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_sub']
+        change_count=change_count+1
+        #exc
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_exc"]=match_list.at[i,'gerp_exc']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_exc']
+        change_count=change_count+1
+
     ############### parent, price, re ###############
     elif match_digit==100011:
         # price
@@ -1355,6 +1459,19 @@ for i in range(len(match_list)):
         sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_sub']
         change_count=change_count+1
 
+    ############### sub, true ###############
+    elif match_digit==10100:
+        #true
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_true"]=match_list.at[i,'gerp_true']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_true']
+        change_count=change_count+1
+        #sub
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_sub"]=match_list.at[i,'gerp_sub']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_sub']
+        change_count=change_count+1
+
     ############### sub, re ###############
     elif match_digit==10001:
         #sub
@@ -1366,6 +1483,19 @@ for i in range(len(match_list)):
         sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
         sub_matchlist.at[change_count,"gerp_re"]=match_list.at[i,'gerp_re']
         sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_re']
+        change_count=change_count+1
+
+    ############### sub, re ###############
+    elif match_digit==11000:
+        #sub
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_sub"]=match_list.at[i,'gerp_sub']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_sub']
+        change_count=change_count+1
+        #exc
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_exc"]=match_list.at[i,'gerp_exc']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_exc']
         change_count=change_count+1
 
     ############### sub, price ###############
@@ -1700,8 +1830,6 @@ for i in range(len(final_table)):
         child_seq=int(final_table.at[i,"Seq."])+1
         child_row=final_table.index[final_table['Seq.']==child_seq].tolist()
         if len(child_row)==0:
-            print(npt_part)
-            print(npt.at[i,"Seq."])
             pass
         else:
             child_index=child_row[0]

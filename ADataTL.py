@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-today_date="0628"
+today_date="0707"
 
 ###########################GERP###############################
 gerp=pd.read_excel('C:/Users/RnD Workstation/Documents/NPTGERP/'+str(today_date)+'/TL/gerp.xlsx')
@@ -672,7 +672,6 @@ for i in range(len(remain_gerp)): #i -> gerp
         elif remain_des=="Hanger,Upper" and remain_des==npt_des and remain_subpart==npt_subpart:
             match_list.at[match_number,"gerp_re"]=remain_seq
             remain_match.at[match_number,"index"]=i
-            print(i)
 
         ############## Damper Assembly,Friction ###############
         elif remain_des=='Damper Assembly,Friction' and npt_des==remain_des and match_number==539:
@@ -702,7 +701,6 @@ for i in range(len(remain_gerp)): #i -> gerp
 
         ############## Label Barcode ###############
         elif remain_des=='Sheet,Steel(STS)' and remain_parent[:3]=="MAM" and npt_part[:3]=="MAM":
-            print(match_number)
             match_list.at[match_number,"gerp_re"]=remain_seq
             remain_match.at[match_number,"index"]=i
 
@@ -821,6 +819,19 @@ for i in range(len(match_list)):
         sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_exc']
         change_count=change_count+1
 
+    ############### parent, re ###############
+    elif match_digit==11:
+        #parent
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_parent"]=match_list.at[i,'gerp_parent']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_parent']
+        change_count=change_count+1
+        # re
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_re"]=match_list.at[i,'gerp_re']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_re']
+        change_count=change_count+1
+
     ############### sub ###############
     elif match_digit==10000:
         sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
@@ -830,6 +841,24 @@ for i in range(len(match_list)):
 
     ############### sub, price ###############
     elif match_digit==110000:
+        #price
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_price"]=match_list.at[i,'gerp_price']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_price']
+        change_count=change_count+1
+        #sub
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_sub"]=match_list.at[i,'gerp_sub']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_sub']
+        change_count=change_count+1
+
+    ############### sub, price, true ###############
+    elif match_digit==110100:
+        #true
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_true"]=match_list.at[i,'gerp_true']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_true']
+        change_count=change_count+1
         #price
         sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
         sub_matchlist.at[change_count,"gerp_price"]=match_list.at[i,'gerp_price']
@@ -1193,13 +1222,16 @@ for i in range(len(final_table)):
     if npt_uit=="T" and npt_part!=npt_gerp_part and npt_gerp_part!='':
         child_seq=int(final_table.at[i,"Seq."])+1
         child_row=final_table.index[final_table['Seq.']==child_seq].tolist()
-        child_index=child_row[0]
-        child_part=final_table.at[child_index,"Parent Part"]
-        child_cost=final_table.at[child_index,"Material Cost (LOC)"]
-        child_g_cost=final_table.at[child_index,"Unit Price (USD)"]
-        child_gd_cost=final_table.at[child_index,"Net Material"]
-        child_g_qty=final_table.at[child_index,"Qty Per Assembly"]
-        child_uit=final_table.at[child_index,"UIT"]
+        if child_row==[]:
+            pass
+        else:
+            child_index=child_row[0]
+            child_part=final_table.at[child_index,"Parent Part"]
+            child_cost=final_table.at[child_index,"Material Cost (LOC)"]
+            child_g_cost=final_table.at[child_index,"Unit Price (USD)"]
+            child_gd_cost=final_table.at[child_index,"Net Material"]
+            child_g_qty=final_table.at[child_index,"Qty Per Assembly"]
+            child_uit=final_table.at[child_index,"UIT"]
 
         if child_uit=="G" and child_part==npt_part:
             final_table.at[i,"price match"]=round((npt_cost-child_cost)*npt_qty,8)
