@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from collections import Counter
 
-today_date="0707"
+today_date="0714"
 
 ###########################GERP###############################
 gerp=pd.read_excel('C:/Users/RnD Workstation/Documents/NPTGERP/'+str(today_date)+'/FL/gerp.xlsx')
@@ -905,7 +905,6 @@ for i in range(len(remain_gerp)): #i -> gerp
             break
     if flag:
         break
-print(remain_gerp)
 
 
 flag=False
