@@ -426,6 +426,32 @@ for i in range(len(npt)):
     else:
         pass
 
+####################################### priority - resin,asa #######################################
+#Sheet,Steel(GI) -> 부모, description, Qty 만보고 먼저 매치
+for i in range(len(npt)):
+    npt_subpart=npt.at[i,"Part No"][:-2]
+    npt_des=npt.at[i,"Desc."]
+    npt_price=npt.at[i,"Material Cost (LOC)"]
+    npt_qty=npt.at[i,"Unit Qty"]
+    match_number=npt.at[i,"Seq."]
+    if npt_des=='Panel Assembly,Control':
+        for j in range(len(unique_gerp)): #duplicate 제외
+            gerp_part=unique_gerp.at[j,"Child Item"]
+            gerp_des=unique_gerp.at[j,"Description"]
+            gerp_price=unique_gerp.at[j,"QPA*Material Cost"]
+            gerp_qty=unique_gerp.at[j,"Qty Per Assembly"]
+            if gerp_part=='RAA36185101':
+                gerp_data=unique_gerp.at[j,"Seq"]
+                match_list.at[match_number,"gerp_unique"]=gerp_data
+            else:
+                continue
+        ### HOW TO DROP 
+        used_index=unique_gerp[unique_gerp["Seq"]==gerp_data].index
+        unique_gerp=unique_gerp.drop(used_index,axis=0)
+        unique_gerp.reset_index(drop=True, inplace=True)
+    else:
+        pass
+
 
 ####################################### priority - Upper Hanger & Door Glass#######################################
 sub_count=0
@@ -773,6 +799,218 @@ match_list.reset_index(drop=True, inplace=True)
 ############################ 2) NPT Sequence -> index #########################
 ### 매칭 안된 데이터 - 남는 데이터 가지고 다시 비교
 match_list.index=match_list['index']
+
+### error 7/14
+flag=False
+count=0
+for i in range(len(remain_gerp)): #i -> gerp
+    remain_des=remain_gerp.at[i,"Description"]
+    remain_part=remain_gerp.at[i,"Child Item"]
+    remain_seq=remain_gerp.at[i,"Seq"]
+    for j in range(len(npt)):
+        npt_parent=npt.at[j,"Parent Part"]
+        match_number=npt.at[j,"Seq."]
+        if remain_des=="Resin,TPE" and remain_part=="RAA35577102" and npt_parent=='MDS66290805' and match_number==219:
+            match_list.at[match_number,"gerp_re"]=remain_seq
+            match_list.at[match_number,"index"]=match_number
+            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+            remain_drop=remain_match.index.values
+            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+            remain_gerp.reset_index(drop=True, inplace=True)  
+            flag=True                     
+    if flag:
+        break
+
+
+### error 7/14
+flag=False
+count=0
+for i in range(len(remain_gerp)): #i -> gerp
+    remain_des=remain_gerp.at[i,"Description"]
+    remain_parent=remain_gerp.at[i,"Parent Item"]
+    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+    remain_seq=remain_gerp.at[i,"Seq"]
+    remain_part=remain_gerp.at[i,"Child Item"]
+    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+    remain_seq=remain_gerp.at[i,"Seq"]
+    for j in range(len(npt)):
+        npt_des=npt.at[j,"Desc."]
+        npt_subdes=npt.at[j,"Desc."][:-2]
+        npt_subpart=str(npt.at[j,"Part No"])[:-2]
+        npt_parent=str(npt.at[j,"Parent Part"])
+        match_number=npt.at[j,"Seq."]
+        if remain_parent=="AGL30018815" and npt_des=="Panel Assembly,Control":
+            match_list.at[match_number,"gerp_re"]=remain_seq
+            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+            remain_drop=remain_match.index.values
+            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+            remain_gerp.reset_index(drop=True, inplace=True)  
+            flag=True                     
+    if flag:
+        break
+
+### error 7/14
+flag=False
+count=0
+for i in range(len(remain_gerp)): #i -> gerp
+    remain_des=remain_gerp.at[i,"Description"]
+    remain_parent=remain_gerp.at[i,"Parent Item"]
+    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+    remain_seq=remain_gerp.at[i,"Seq"]
+    remain_part=remain_gerp.at[i,"Child Item"]
+    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+    remain_seq=remain_gerp.at[i,"Seq"]
+    for j in range(len(npt)):
+        npt_des=npt.at[j,"Desc."]
+        npt_subdes=npt.at[j,"Desc."][:-2]
+        npt_subpart=str(npt.at[j,"Part No"])[:-2]
+        npt_parent=str(npt.at[j,"Parent Part"])
+        match_number=npt.at[j,"Seq."]
+        if remain_parent=="AGL30018815" and npt_des=="Panel Assembly,Control":
+            match_list.at[match_number,"gerp_exc"]=remain_seq
+            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+            remain_drop=remain_match.index.values
+            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+            remain_gerp.reset_index(drop=True, inplace=True)  
+            flag=True                     
+    if flag:
+        break
+
+### error 7/14
+flag=False
+count=0
+for i in range(len(remain_gerp)): #i -> gerp
+    remain_des=remain_gerp.at[i,"Description"]
+    remain_parent=remain_gerp.at[i,"Parent Item"]
+    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+    remain_seq=remain_gerp.at[i,"Seq"]
+    remain_part=remain_gerp.at[i,"Child Item"]
+    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+    remain_seq=remain_gerp.at[i,"Seq"]
+    for j in range(len(npt)):
+        npt_des=npt.at[j,"Desc."]
+        npt_subdes=npt.at[j,"Desc."][:-2]
+        npt_subpart=str(npt.at[j,"Part No"])[:-2]
+        npt_parent=str(npt.at[j,"Parent Part"])
+        match_number=npt.at[j,"Seq."]
+        if remain_parent=="AGL30018815" and npt_des=="Panel Assembly,Control":
+            match_list.at[match_number,"gerp_parent"]=remain_seq
+            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+            remain_drop=remain_match.index.values
+            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+            remain_gerp.reset_index(drop=True, inplace=True)  
+            flag=True                     
+    if flag:
+        break
+
+### error 7/14
+flag=False
+count=0
+for i in range(len(remain_gerp)): #i -> gerp
+    remain_des=remain_gerp.at[i,"Description"]
+    remain_parent=remain_gerp.at[i,"Parent Item"]
+    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+    remain_seq=remain_gerp.at[i,"Seq"]
+    remain_part=remain_gerp.at[i,"Child Item"]
+    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+    remain_seq=remain_gerp.at[i,"Seq"]
+    for j in range(len(npt)):
+        npt_des=npt.at[j,"Desc."]
+        npt_subdes=npt.at[j,"Desc."][:-2]
+        npt_subpart=str(npt.at[j,"Part No"])[:-2]
+        npt_parent=str(npt.at[j,"Parent Part"])
+        match_number=npt.at[j,"Seq."]
+        if remain_part=="MGC65479901" and npt_des=="Panel Assembly,Control":
+            match_list.at[match_number,"gerp_true"]=remain_seq
+            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+            remain_drop=remain_match.index.values
+            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+            remain_gerp.reset_index(drop=True, inplace=True)  
+            flag=True                     
+    if flag:
+        break
+
+### error 7/14
+flag=False
+count=0
+for i in range(len(remain_gerp)): #i -> gerp
+    remain_des=remain_gerp.at[i,"Description"]
+    remain_parent=remain_gerp.at[i,"Parent Item"]
+    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+    remain_seq=remain_gerp.at[i,"Seq"]
+    remain_part=remain_gerp.at[i,"Child Item"]
+    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+    remain_seq=remain_gerp.at[i,"Seq"]
+    for j in range(len(npt)):
+        npt_des=npt.at[j,"Desc."]
+        npt_subdes=npt.at[j,"Desc."][:-2]
+        npt_subpart=str(npt.at[j,"Part No"])[:-2]
+        npt_parent=str(npt.at[j,"Parent Part"])
+        match_number=npt.at[j,"Seq."]
+        if remain_part=="RAC35357701" and remain_parent=='MGC65380417' and npt_des=="Panel,Drawer(Form)":
+            match_list.at[match_number,"gerp_unique"]=remain_seq
+            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+            remain_drop=remain_match.index.values
+            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+            remain_gerp.reset_index(drop=True, inplace=True)  
+            flag=True                     
+    if flag:
+        break
+
+### error 7/14
+flag=False
+count=0
+for i in range(len(remain_gerp)): #i -> gerp
+    remain_des=remain_gerp.at[i,"Description"]
+    remain_parent=remain_gerp.at[i,"Parent Item"]
+    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+    remain_seq=remain_gerp.at[i,"Seq"]
+    remain_part=remain_gerp.at[i,"Child Item"]
+    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+    remain_seq=remain_gerp.at[i,"Seq"]
+    for j in range(len(npt)):
+        npt_des=npt.at[j,"Desc."]
+        npt_subdes=npt.at[j,"Desc."][:-2]
+        npt_subpart=str(npt.at[j,"Part No"])[:-2]
+        npt_parent=str(npt.at[j,"Parent Part"])
+        match_number=npt.at[j,"Seq."]
+        if remain_part=="RAC35357801" and npt_des=="Panel,Drawer(Form)":
+            match_list.at[match_number,"gerp_exc"]=remain_seq
+            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+            remain_drop=remain_match.index.values
+            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+            remain_gerp.reset_index(drop=True, inplace=True)  
+            flag=True                     
+    if flag:
+        break
+
+### error 7/14
+flag=False
+count=0
+for i in range(len(remain_gerp)): #i -> gerp
+    remain_des=remain_gerp.at[i,"Description"]
+    remain_parent=remain_gerp.at[i,"Parent Item"]
+    remain_subparent=remain_gerp.at[i,"Parent Item"][:-2]
+    remain_seq=remain_gerp.at[i,"Seq"]
+    remain_part=remain_gerp.at[i,"Child Item"]
+    remain_subpart=remain_gerp.at[i,"Child Item"][:-2]
+    remain_seq=remain_gerp.at[i,"Seq"]
+    for j in range(len(npt)):
+        npt_des=npt.at[j,"Desc."]
+        npt_subdes=npt.at[j,"Desc."][:-2]
+        npt_subpart=str(npt.at[j,"Part No"])[:-2]
+        npt_parent=str(npt.at[j,"Parent Part"])
+        match_number=npt.at[j,"Seq."]
+        if remain_part=="RAC35358001" and npt_des=="Panel,Drawer(Form)":
+            match_list.at[match_number,"gerp_parent"]=remain_seq
+            remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
+            remain_drop=remain_match.index.values
+            remain_gerp=remain_gerp.drop(remain_drop,axis=0)
+            remain_gerp.reset_index(drop=True, inplace=True)  
+            flag=True                     
+    if flag:
+        break
+
 
 flag=False
 for i in range(len(remain_gerp)): #i -> gerp
@@ -1275,7 +1513,7 @@ match_list.reset_index(drop=True, inplace=True)
 sub_matchlist=match_list
 
 ####### columns not all contain #######
-all_columns=set(["gerp_price","gerp_sub","gerp_exc","gerp_true","gerp_parent","gerp_re","index"])
+all_columns=set(["gerp_unique","gerp_price","gerp_sub","gerp_exc","gerp_true","gerp_parent","gerp_re","index"])
 submatchlist_columns=set(sub_matchlist.columns.tolist())
 exclude_list=pd.DataFrame(all_columns.difference(submatchlist_columns))
 
@@ -1288,6 +1526,8 @@ for i in range(len(sub_matchlist)):
 # add one more column
 for i in range(len(match_list)):
     match_column=match_list.iloc[i]
+    if str(match_column.gerp_unique)!="nan":
+        match_list.at[i,"match_digit"]=match_list.at[i,"match_digit"]+1000000
     if str(match_column.gerp_price)!="nan":
         match_list.at[i,"match_digit"]=match_list.at[i,"match_digit"]+100000
     if str(match_column.gerp_sub)!="nan":
@@ -1324,11 +1564,24 @@ for i in range(len(match_list)):
         sub_matchlist.at[change_count,"gerp_true"]=match_list.at[i,'gerp_true']
         change_count=change_count+1
     
-    ############### true ###############
+    ############### price ###############
     elif match_digit==100000:
         sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
         sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_price']
         sub_matchlist.at[change_count,"gerp_price"]=match_list.at[i,'gerp_price']
+        change_count=change_count+1
+
+    ############### true,parent ###############
+    elif match_digit==110:
+        #true
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_true']
+        sub_matchlist.at[change_count,"gerp_true"]=match_list.at[i,'gerp_true']
+        change_count=change_count+1
+        #parent
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_parent']
+        sub_matchlist.at[change_count,"gerp_parent"]=match_list.at[i,'gerp_parent']
         change_count=change_count+1
 
     ############### parent ###############
@@ -1351,6 +1604,24 @@ for i in range(len(match_list)):
         sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_parent']
         change_count=change_count+1
 
+    ############### parent, price,exc ###############
+    elif match_digit==101010:
+        # price
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_price"]=match_list.at[i,'gerp_price']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_price']
+        change_count=change_count+1
+        #parent
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_parent"]=match_list.at[i,'gerp_parent']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_parent']
+        change_count=change_count+1
+        #exc
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_exc"]=match_list.at[i,'gerp_exc']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_exc']
+        change_count=change_count+1
+
     ############### parent, price, sub ###############
     elif match_digit==110010:
         # price
@@ -1367,6 +1638,42 @@ for i in range(len(match_list)):
         sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
         sub_matchlist.at[change_count,"gerp_sub"]=match_list.at[i,'gerp_sub']
         sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_sub']
+        change_count=change_count+1
+
+    ############### sub,parent, exc ###############
+    elif match_digit==11010:
+        # sub
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_sub"]=match_list.at[i,'gerp_sub']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_sub']
+        change_count=change_count+1
+        #parent
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_parent"]=match_list.at[i,'gerp_parent']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_parent']
+        change_count=change_count+1
+        #exc
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_exc"]=match_list.at[i,'gerp_exc']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_exc']
+        change_count=change_count+1
+
+    ############### re,parent, exc ###############
+    elif match_digit==1011:
+        # re
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_re"]=match_list.at[i,'gerp_re']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_re']
+        change_count=change_count+1
+        #parent
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_parent"]=match_list.at[i,'gerp_parent']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_parent']
+        change_count=change_count+1
+        #exc
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_exc"]=match_list.at[i,'gerp_exc']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_exc']
         change_count=change_count+1
 
     ############### parent, price, sub, exc ###############
@@ -1392,6 +1699,33 @@ for i in range(len(match_list)):
         sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_exc']
         change_count=change_count+1
 
+    ############### parent, price, sub, exc, re ###############
+    elif match_digit==111011:
+        # price
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_price"]=match_list.at[i,'gerp_price']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_price']
+        change_count=change_count+1
+        #sub
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_sub"]=match_list.at[i,'gerp_sub']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_sub']
+        change_count=change_count+1
+        #re
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_re"]=match_list.at[i,'gerp_re']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_re']
+        change_count=change_count+1
+        #exc
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_exc"]=match_list.at[i,'gerp_exc']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_exc']
+        change_count=change_count+1
+        #parent
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_parent"]=match_list.at[i,'gerp_parent']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_parent']
+        change_count=change_count+1
     ############### parent, price, re ###############
     elif match_digit==100011:
         # price
@@ -1421,6 +1755,67 @@ for i in range(len(match_list)):
         sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
         sub_matchlist.at[change_count,"gerp_re"]=match_list.at[i,'gerp_re']
         sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_re']
+        change_count=change_count+1
+
+    ############### unique, exc, parent, re ###############
+    elif match_digit==1001011:
+        # re
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_re"]=match_list.at[i,'gerp_re']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_re']
+        change_count=change_count+1
+        # parent
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_parent"]=match_list.at[i,'gerp_parent']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_parent']
+        change_count=change_count+1
+        # exc
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_exc"]=match_list.at[i,'gerp_exc']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_exc']
+        change_count=change_count+1
+        # unique
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_unique"]=match_list.at[i,'gerp_unique']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_unique']
+        change_count=change_count+1
+
+    ############### unique, price, sub, exc, parent, re ###############
+    elif match_digit==1111111:
+        #price
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_price"]=match_list.at[i,'gerp_price']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_price']
+        change_count=change_count+1
+        # sub
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_sub"]=match_list.at[i,'gerp_sub']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_sub']
+        change_count=change_count+1
+        # re
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_re"]=match_list.at[i,'gerp_re']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_re']
+        change_count=change_count+1
+        # parent
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_parent"]=match_list.at[i,'gerp_parent']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_parent']
+        change_count=change_count+1
+        # exc
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_exc"]=match_list.at[i,'gerp_exc']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_exc']
+        change_count=change_count+1
+        # true
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_true"]=match_list.at[i,'gerp_true']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_true']
+        change_count=change_count+1
+        # unique
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_unique"]=match_list.at[i,'gerp_unique']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_unique']
         change_count=change_count+1
 
     ############### sub ###############
@@ -1784,40 +2179,40 @@ final_table = final_table.astype(cast_to_type) # round error -> datatype
 final_table["price match"]=final_table["price match"].round(8)
 
 ######################## Npt T, Child NPT G,D,S ########################
-for i in range(len(final_table)):
-    npt_uit=final_table.at[i,"UIT"]
-    npt_part=final_table.at[i,"Part No"]
-    npt_match=final_table.at[i,"match"]
-    npt_part=final_table.at[i,"Part No"]
-    npt_gerp_part=final_table.at[i,"Child Item"]
-    npt_child_uit=final_table.at[i,"Item Type"]
-    npt_cost=final_table.at[i,"Net Material"]
-    npt_qty=final_table.at[i,"Qty Per Assembly"]
-    child_seq=int(final_table.at[i,"Seq."])+1
-    child_index=final_table[final_table['Seq.']==child_seq].index
+# for i in range(len(final_table)):
+#     npt_uit=final_table.at[i,"UIT"]
+#     npt_part=final_table.at[i,"Part No"]
+#     npt_match=final_table.at[i,"match"]
+#     npt_part=final_table.at[i,"Part No"]
+#     npt_gerp_part=final_table.at[i,"Child Item"]
+#     npt_child_uit=final_table.at[i,"Item Type"]
+#     npt_cost=final_table.at[i,"Net Material"]
+#     npt_qty=final_table.at[i,"Qty Per Assembly"]
+#     child_seq=int(final_table.at[i,"Seq."])+1
+#     child_index=final_table[final_table['Seq.']==child_seq].index
 
-    # T & Substitute
-    if npt_uit=="T" and npt_gerp_part!='' and npt_part!=npt_gerp_part:
-        child_seq=int(final_table.at[i,"Seq."])+1
-        child_row=final_table.index[final_table['Seq.']==child_seq].tolist()
-        if len(child_row)==0:
-            pass
-        else:
-            child_index=child_row[0]
-            child_part=final_table.at[child_index,"Parent Part"]
-            child_cost=final_table.at[child_index,"Material Cost (LOC)"]
-            child_g_cost=final_table.at[child_index,"Unit Price (USD)"]
-            child_gd_cost=final_table.at[child_index,"Net Material"]
-            child_g_qty=final_table.at[child_index,"Qty Per Assembly"]
-            child_uit=final_table.at[child_index,"UIT"]
+#     # T & Substitute
+#     if npt_uit=="T" and npt_gerp_part!='' and npt_part!=npt_gerp_part:
+#         child_seq=int(final_table.at[i,"Seq."])+1
+#         child_row=final_table.index[final_table['Seq.']==child_seq].tolist()
+#         if len(child_row)==0:
+#             pass
+#         else:
+#             child_index=child_row[0]
+#             child_part=final_table.at[child_index,"Parent Part"]
+#             child_cost=final_table.at[child_index,"Material Cost (LOC)"]
+#             child_g_cost=final_table.at[child_index,"Unit Price (USD)"]
+#             child_gd_cost=final_table.at[child_index,"Net Material"]
+#             child_g_qty=final_table.at[child_index,"Qty Per Assembly"]
+#             child_uit=final_table.at[child_index,"UIT"]
 
-            if child_uit=="G" and child_part==npt_part:
-                final_table.at[i,"price match"]=round((npt_cost-child_cost)*npt_qty,8)
-                final_table.at[child_index,"price match"]=round((child_gd_cost-child_g_cost)*child_g_qty*final_table.at[j-1,"Qty Per Assembly"],8)
-            elif child_uit=="D" and child_part==npt_part:
-                final_table.at[i,"price match"]=round((npt_cost-child_cost)*npt_qty,8)
-            elif child_uit=="S" and child_part==npt_part:
-                final_table.at[i,"price match"]=round((npt_cost-child_cost)*npt_qty,8)
+#             if child_uit=="G" and child_part==npt_part:
+#                 final_table.at[i,"price match"]=round((npt_cost-child_cost)*npt_qty,8)
+#                 final_table.at[child_index,"price match"]=round((child_gd_cost-child_g_cost)*child_g_qty*final_table.at[j-1,"Qty Per Assembly"],8)
+#             elif child_uit=="D" and child_part==npt_part:
+#                 final_table.at[i,"price match"]=round((npt_cost-child_cost)*npt_qty,8)
+#             elif child_uit=="S" and child_part==npt_part:
+#                 final_table.at[i,"price match"]=round((npt_cost-child_cost)*npt_qty,8)
 
 
 

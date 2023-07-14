@@ -1,7 +1,7 @@
 import pandas as pd
 import openpyxl
 
-today_date="0623"
+today_date="0714"
 DR_final=pd.read_excel('C:/Users/RnD Workstation/Documents/NPTGERP/'+str(today_date)+'/DR/final_table.xlsx')
 FL_final=pd.read_excel('C:/Users/RnD Workstation/Documents/NPTGERP/'+str(today_date)+'/FL/final_table.xlsx')
 TL_final=pd.read_excel('C:/Users/RnD Workstation/Documents/NPTGERP/'+str(today_date)+'/TL/final_table.xlsx')

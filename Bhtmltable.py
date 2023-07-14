@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 #today date
-today_date="0707"
+today_date="0714"
 
 #####지난번에 했던 결과 소환
 FL_last_result=pd.read_excel('C:/Users/RnD Workstation/Documents/NPTGERP/'+today_date+'/result_'+today_date+'.xlsx', sheet_name="F3P2CYUBW.ABWEUUS_result")
