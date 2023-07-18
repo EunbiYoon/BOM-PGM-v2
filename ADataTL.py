@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-today_date="0714"
+today_date="0721"
 
 ###########################GERP###############################
 gerp=pd.read_excel('C:/Users/RnD Workstation/Documents/NPTGERP/'+str(today_date)+'/TL/gerp.xlsx')
@@ -330,6 +330,7 @@ for i in range(len(npt)):
         pass
 
 ################################################## unique gerp -> priority ##################################################
+gerp.to_excel('01.xlsx')
 unique_gerp=gerp
 match_list=pd.DataFrame()
 unique_match=pd.DataFrame()
@@ -347,6 +348,7 @@ for i in range(len(unique_gerp)):
     unique_seq=unique_gerp.at[i,"Seq"]
 
     for j in range(len(npt)): #duplicate 제외
+        npt_seq=npt.at[j,"Seq."]
         npt_parent=npt.at[j,"Parent Part"]
         npt_part=npt.at[j,"Part No"]
         npt_subpart=str(npt.at[j,"Part No"])[:-2]
@@ -375,14 +377,10 @@ for i in range(len(unique_gerp)):
         
         ###################### Customized Screw ######################
         elif npt_des=="Screw,Customized" and npt_des==unique_des and npt_part==unique_part and npt_qty==unique_qty and npt_parent==unique_parent:
-            match_list.at[match_number,"gerp_exc"]=unique_seq
+            match_list.at[match_number,"gerp_price"]=unique_seq
             unique_match.at[count,"index"]=i
             count=count+1
-        
-        elif npt_des=="Screw,Customized" and npt_des==unique_des and npt_part=="FAB30598601" and npt_part==unique_part and npt_qty==unique_qty:
-            match_list.at[match_number,"gerp_exc"]=unique_seq
-            unique_match.at[count,"index"]=i
-            count=count+1
+            print(match_list)
 
         ###################### Upper Hanger ######################
         elif unique_des=='Hanger,Upper' and npt_des==unique_des and npt_part==unique_part:
@@ -415,6 +413,7 @@ else:
     A=unique_match["index"].tolist()
     unique_gerp=unique_gerp.drop(A,axis=0)
     unique_gerp.reset_index(inplace=True, drop=True)
+unique_gerp.to_excel('02.xlsx')
 
 ################################################## 일치 조건문 - 완전일치 ##################################################
 for i in range(len(npt)):
@@ -441,6 +440,7 @@ for i in range(len(npt)):
     used_index=unique_gerp[unique_gerp["Seq"]==gerp_data].index
     unique_gerp=unique_gerp.drop(used_index,axis=0)
     unique_gerp.reset_index(drop=True, inplace=True)
+unique_gerp.to_excel('03.xlsx')
 
 ################################################## 일치 조건문 - substitute ##################################################
 # part no 2자리 빼고 똑같은 것 ==> 둘다 parent와 description
@@ -464,7 +464,7 @@ for i in range(len(npt)):
     used_index=unique_gerp[unique_gerp["Seq"]==gerp_data].index
     unique_gerp=unique_gerp.drop(used_index,axis=0)
     unique_gerp.reset_index(drop=True, inplace=True)    
-
+unique_gerp.to_excel('11.xlsx')
 
 ################################################## 일치 조건문 - substitute ##################################################
 #part no 완전 다른 것 ==> 둘다 parent와 description
@@ -494,6 +494,7 @@ for i in range(len(npt)):
         used_index=unique_gerp[unique_gerp["Seq"]==gerp_data].index
         unique_gerp=unique_gerp.drop(used_index,axis=0)
         unique_gerp.reset_index(drop=True, inplace=True)   
+unique_gerp.to_excel('22.xlsx')
 
 ################################################## 일치 조건문 - parent 불일치 ##################################################
 for i in range(len(npt)):
@@ -516,7 +517,7 @@ for i in range(len(npt)):
     used_index=unique_gerp[unique_gerp["Seq"]==gerp_data].index
     unique_gerp=unique_gerp.drop(used_index,axis=0)
     unique_gerp.reset_index(drop=True, inplace=True) 
-
+unique_gerp.to_excel('33.xlsx')
 
 ################################################## 일치 조건문 - parent 불일치 ##################################################
 #price, parent -> parent는 드롭 -> unique_add

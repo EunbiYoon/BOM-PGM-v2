@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from collections import Counter
 
-today_date="0714"
+today_date="0721"
 
 ###########################GERP###############################
 gerp=pd.read_excel('C:/Users/RnD Workstation/Documents/NPTGERP/'+str(today_date)+'/FL/gerp.xlsx')
@@ -398,6 +398,7 @@ for i in range(len(npt)):
         unique_gerp.reset_index(drop=True, inplace=True)
     else:
         pass
+
 
 
 ####################################### priority - Screw, customized #######################################
@@ -1002,7 +1003,7 @@ for i in range(len(remain_gerp)): #i -> gerp
         npt_parent=str(npt.at[j,"Parent Part"])
         match_number=npt.at[j,"Seq."]
         if remain_part=="RAC35358001" and npt_des=="Panel,Drawer(Form)":
-            match_list.at[match_number,"gerp_parent"]=remain_seq
+            match_list.at[match_number,"gerp_sub"]=remain_seq
             remain_match=remain_gerp[remain_gerp['Seq']==remain_seq]
             remain_drop=remain_match.index.values
             remain_gerp=remain_gerp.drop(remain_drop,axis=0)
@@ -1726,6 +1727,35 @@ for i in range(len(match_list)):
         sub_matchlist.at[change_count,"gerp_parent"]=match_list.at[i,'gerp_parent']
         sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_parent']
         change_count=change_count+1
+
+    ############### unique, sub, exc, parent, re ###############
+    elif match_digit==1011011:
+        # unqiue
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_unique"]=match_list.at[i,'gerp_unique']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_unique']
+        change_count=change_count+1
+        #sub
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_sub"]=match_list.at[i,'gerp_sub']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_sub']
+        change_count=change_count+1
+        #re
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_re"]=match_list.at[i,'gerp_re']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_re']
+        change_count=change_count+1
+        #exc
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_exc"]=match_list.at[i,'gerp_exc']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_exc']
+        change_count=change_count+1
+        #parent
+        sub_matchlist.at[change_count,"Seq."]=match_list.at[i,'Seq.']
+        sub_matchlist.at[change_count,"gerp_parent"]=match_list.at[i,'gerp_parent']
+        sub_matchlist.at[change_count,"gerpSeq."]=match_list.at[i,'gerp_parent']
+        change_count=change_count+1
+
     ############### parent, price, re ###############
     elif match_digit==100011:
         # price
