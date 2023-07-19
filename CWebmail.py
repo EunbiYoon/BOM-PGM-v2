@@ -8,7 +8,7 @@ from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication 
 
-title='[테네시 재료비 관리 Task] 7월 2주차 BOM과 실제 생산 투입 재료비 차이 분석'
+title='[테네시 재료비 관리 Task] 7월 3주차 BOM과 실제 생산 투입 재료비 차이 분석'
 ################################## Send email ################################## 
 server = smtplib.SMTP('lgekrhqmh01.lge.com:25')
 server.ehlo()
@@ -19,8 +19,8 @@ msg=MIMEMultipart()
 
 # 수신자 발신자 지정
 msg['From']='eunbi1.yoon@lge.com'
-msg['To']='daewook.kwak@lge.com, incheol.kang@lge.com, aaron1.garcia@lge.com, daesung1.lee@lge.com, gilnam.lee@lge.com, steven.yang@lge.com, jajoon1.koo@lge.com, wolyong.ha@lge.com, dowan.han@lge.com, grace.hwang@lge.com'
-msg['Cc']='ethan.son@lge.com, jongseop.kim@lge.com, richard.song@lge.com, minhyoung.sun@lge.com, kitae3.park@lge.com, tg.kim@lge.com'
+#msg['To']='daewook.kwak@lge.com, incheol.kang@lge.com, aaron1.garcia@lge.com, daesung1.lee@lge.com, gilnam.lee@lge.com, steven.yang@lge.com, jajoon1.koo@lge.com, wolyong.ha@lge.com, dowan.han@lge.com, grace.hwang@lge.com'
+#msg['Cc']='ethan.son@lge.com, jongseop.kim@lge.com, richard.song@lge.com, minhyoung.sun@lge.com, kitae3.park@lge.com, tg.kim@lge.com'
 msg['Bcc']='eunbi1.yoon@lge.com'
 
 #title

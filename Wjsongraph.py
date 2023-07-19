@@ -2,8 +2,8 @@ import pandas as pd
 from json2html import *
 
 # today date
-today_date="0714"
-model_name="DR"
+today_date="0721"
+model_name="FL"
 
 # model -> sheet name matching
 if model_name=="FL":
